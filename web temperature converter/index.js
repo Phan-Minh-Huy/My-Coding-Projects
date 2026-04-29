@@ -1,4 +1,4 @@
-// Khởi tạo các phần tử
+
 const textBox = document.getElementById("textBox");
 const fromUnit = document.getElementById("fromUnit");
 const toUnit = document.getElementById("toUnit");
@@ -7,7 +7,7 @@ const resultText = document.getElementById("resultText");
 const formulaDisplay = document.getElementById("formulaDisplay");
 const historyList = document.getElementById("historyList");
 
-// 1. Tải dữ liệu cũ từ LocalStorage khi mở trang
+
 window.onload = () => {
     const savedHistory = JSON.parse(localStorage.getItem("tempHistory")) || [];
     savedHistory.forEach(item => renderHistoryItem(item));
@@ -25,7 +25,7 @@ function convert() {
     let from = fromUnit.value;
     let to = toUnit.value;
     
-    // Bước 1: Chuyển mọi thứ về Celsius (C)
+   
     let c, formulaFrom, formulaTo;
     
     switch(from) {
@@ -36,7 +36,7 @@ function convert() {
         case "Re": c = val * 1.25; formulaFrom = `${val}°Re × 1.25`; break;
     }
 
-    // Bước 2: Từ C chuyển sang đơn vị đích
+    
     let res;
     switch(to) {
         case "C": res = c; formulaTo = ` = ${res.toFixed(2)}°C`; break;
@@ -46,17 +46,17 @@ function convert() {
         case "Re": res = c * 0.8; formulaTo = ` × 0.8 = ${res.toFixed(2)}°Re`; break;
     }
 
-    // Hiển thị kết quả & Công thức
+
     resultContainer.classList.remove("hidden");
     let finalString = `${res.toFixed(2)} ${to}`;
     resultText.textContent = finalString;
     formulaDisplay.textContent = formulaFrom + formulaTo;
 
-    // Lưu lịch sử
+  
     saveHistory(`${val}${from} ➔ ${finalString}`);
 }
 
-// Hàm lưu lịch sử vào LocalStorage
+
 function saveHistory(item) {
     let history = JSON.parse(localStorage.getItem("tempHistory")) || [];
     history.unshift(item); // Thêm vào đầu mảng
@@ -78,7 +78,7 @@ function clearHistory() {
     historyList.innerHTML = "";
 }
 
-// Bật/Tắt Dark Mode chuyên nghiệp
+
 function toggleTheme() {
     const isDark = document.body.hasAttribute("data-theme");
     if(isDark) {
@@ -94,7 +94,6 @@ function toggleTheme() {
 
 document.getElementById("themeToggle").onclick = toggleTheme;
 
-// Tính năng Copy
 function copyResult() {
     navigator.clipboard.writeText(resultText.textContent);
     alert("Đã copy kết quả! ✅");

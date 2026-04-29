@@ -1,6 +1,6 @@
 :root {
-  --primary: #6366f1; /* Tím hiện đại */
-  --secondary: #ec4899; /* Hồng neon */
+  --primary: #6366f1;
+  --secondary: #ec4899;
   --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   --glass-bg: rgba(255, 255, 255, 0.7);
   --text: #1e293b;
@@ -25,23 +25,21 @@ body {
   min-height: 100vh;
   background: var(--bg-gradient);
   display: flex;
-  flex-direction: column; /* 🌟 Ép tất cả xếp theo chiều dọc (trên xuống dưới) */
-  justify-content: flex-start; /* 🌟 Bắt đầu xếp từ trên cùng màn hình xuống */
-  align-items: center; /* 🌟 Căn giữa mọi thứ theo chiều ngang */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   color: var(--text);
   overflow-x: hidden;
-  padding-top: 40px; /* Thêm khoảng trống ở phía trên cùng để không bị dính sát mép màn hình */
+  padding-top: 40px;
 }
 
-/* Định dạng tiêu đề chính */
 .main-header {
   text-align: center;
   width: 100%;
-  margin-bottom: 30px; /* Chỉ cần giữ lại khoảng cách phía dưới tiêu đề */
-  z-index: 10; /* Đảm bảo tiêu đề luôn nằm trên nền */
+  margin-bottom: 30px;
+  z-index: 10;
 }
 
-/* Các đốm màu nền tạo hiệu ứng chiều sâu */
 .background-blobs {
   position: fixed;
   width: 100vw;
@@ -135,13 +133,8 @@ select {
   padding: 16px;
   border-radius: 16px;
   border: none;
-  background: linear-gradient(
-    45deg,
-    #6366f1,
-    #a855f7,
-    #ec4899
-  ); /* Gradient 3 màu */
-  background-size: 200% auto; /* Để hiệu ứng di chuyển màu */
+  background: linear-gradient(45deg, #6366f1, #a855f7, #ec4899);
+  background-size: 200% auto;
   color: white;
   font-size: 1.1rem;
   font-weight: 700;
@@ -152,7 +145,7 @@ select {
 }
 
 .main-btn:hover {
-  background-position: right center; /* Chạy màu Gradient khi di chuột */
+  background-position: right center;
   transform: translateY(-3px);
   box-shadow: 0 15px 25px rgba(99, 102, 241, 0.4);
 }
@@ -167,7 +160,6 @@ select {
   line-height: 1.6;
 }
 
-/* Lịch sử */
 .history-card {
   padding: 20px;
 }
@@ -189,20 +181,6 @@ select {
   font-size: 0.9rem;
 }
 
-/* Mobile Responsive */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 1.8rem;
-  }
-  .unit-selectors {
-    flex-direction: column;
-  }
-  .swap-icon {
-    transform: rotate(90deg);
-  }
-}
-
-/* Định dạng tiêu đề của bảng */
 .table-title {
   text-align: center;
   margin-bottom: 20px;
@@ -211,10 +189,9 @@ select {
   font-weight: bold;
 }
 
-/* Style cho bảng giống hình ảnh */
 .table-container {
   overflow-x: auto;
-  border-radius: 8px; /* Bo góc mượt mà */
+  border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -226,44 +203,31 @@ select {
 
 .custom-table td {
   padding: 15px;
-  border: 1px solid var(--input-border); /* Tạo viền mỏng giữa các ô */
+  border: 1px solid var(--input-border);
   color: var(--text);
   font-size: 1rem;
 }
-
-/* Định dạng cột bên trái (Tên công thức) - Nền xám */
 .custom-table .col-name {
-  background-color: rgba(
-    150,
-    150,
-    150,
-    0.15
-  ); /* Màu xám nhạt, tự đổi theo dark/light mode */
+  background-color: rgba(150, 150, 150, 0.15);
   font-weight: 500;
   width: 45%;
 }
 
-/* Định dạng cột bên phải (Công thức) */
 .custom-table .col-formula {
-  font-family:
-    "Courier New", Courier, monospace; /* Đổi sang font chữ code để nhìn giống toán học */
+  font-family: "Courier New", Courier, monospace;
   font-size: 1.1rem;
   background-color: transparent;
 }
 
-/* Hiệu ứng hover cho bảng */
 .custom-table tr:hover td {
   background-color: rgba(99, 102, 241, 0.1);
 }
 
-/* --- BỐ CỤC CHIA 2 CỘT (MỚI) --- */
-
-/* 1. Khung bao ngoài cùng chứa cả 2 cột */
 .main-content-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-start; /* Lệnh này bắt buộc 2 bảng phải gióng bằng mép trên */
+  align-items: flex-start;
   gap: 40px;
   width: 100%;
   max-width: 1100px;
@@ -271,27 +235,23 @@ select {
   padding: 0 20px;
 }
 
-/* 2. Cột bên trái: Phần App và Lịch sử */
 .app-container {
-  flex: 1.2; /* Tỷ lệ độ rộng cột trái (lớn hơn một chút) */
+  flex: 1.2;
   width: 100%;
-  /* Xóa bỏ margin tự động cũ nếu có để tránh bị lệch */
+
   margin: 0;
 }
 
-/* 3. Cột bên phải: Bảng công thức */
 .formula-sidebar {
-  flex: 1; /* Tỷ lệ độ rộng cột phải */
+  flex: 1;
   width: 100%;
-  position: sticky; /* Giữ bảng công thức đứng im khi cuộn chuột xuống xem lịch sử */
+  position: sticky;
   top: 20px;
   margin: 0;
 }
-
-/* 4. Tự động chuyển về 1 cột khi xem trên Điện thoại / Màn hình nhỏ gọn */
 @media (max-width: 900px) {
   .main-content-wrapper {
-    flex-direction: column; /* Đổi lại thành xếp dọc trên điện thoại */
+    flex-direction: column;
     align-items: center;
   }
 
@@ -303,7 +263,7 @@ select {
   }
 
   .formula-sidebar {
-    position: static; /* Tắt sticky trên điện thoại */
+    position: static;
     margin-top: 20px;
   }
 }
@@ -314,7 +274,7 @@ select {
   right: 25px;
   width: 50px;
   height: 50px;
-  border-radius: 50%; /* Nút tròn hoàn hảo */
+  border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -329,17 +289,17 @@ select {
 }
 
 #themeToggle:hover {
-  transform: scale(1.1) rotate(15deg); /* Phóng to và xoay nhẹ khi di chuột */
+  transform: scale(1.1) rotate(15deg);
   background: var(--primary);
   color: white;
 }
 
 .clear-btn {
-  background: rgba(231, 76, 60, 0.1); /* Màu đỏ cực nhạt */
-  color: #e74c3c; /* Chữ đỏ */
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
   border: 1px solid rgba(231, 76, 60, 0.2);
   padding: 6px 15px;
-  border-radius: 20px; /* Bo tròn kẹo dẻo */
+  border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -373,10 +333,9 @@ select {
 }
 
 .copy-btn:active {
-  transform: scale(0.9); /* Hiệu ứng nhấn nút */
+  transform: scale(0.9);
 }
 
-/* Container chứa các định nghĩa */
 .unit-definitions {
   margin-top: 30px;
   padding-top: 20px;
@@ -392,7 +351,6 @@ select {
   gap: 8px;
 }
 
-/* Từng dòng định nghĩa */
 .def-item {
   display: flex;
   align-items: flex-start;
@@ -405,10 +363,9 @@ select {
 }
 
 .def-item:hover {
-  transform: translateX(5px); /* Hiệu ứng lướt nhẹ khi di chuột */
+  transform: translateX(5px);
 }
 
-/* Các Badge (nhãn) màu sắc cho từng đơn vị */
 .unit-tag {
   min-width: 45px;
   height: 30px;
@@ -423,19 +380,19 @@ select {
 
 .c-tag {
   background: #3498db;
-} /* Blue */
+}
 .f-tag {
   background: #e67e22;
-} /* Orange */
+}
 .k-tag {
   background: #9b59b6;
-} /* Purple */
+}
 .r-tag {
   background: #1abc9c;
-} /* Teal */
+}
 .re-tag {
   background: #34495e;
-} /* Navy */
+}
 
 .def-item p {
   font-size: 0.85rem;
