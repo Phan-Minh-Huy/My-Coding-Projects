@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperature Converter</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-blobs"></div>
+    <button id="themeToggle" class="glass-btn">🌙</button>
+    <header>
+      <h1>
+        Temperature Converter
+        <span class="badge">Help the environment</span>
+      </h1>
+    </header>
+    <div class="main-content-wrapper">
+      <main class="app-container">
+        <section class="converter-card glass">
+          <div class="input-section">
+            <input
+              type="number"
+              id="textBox"
+              placeholder="Enter temperature"
+              step="any"
+            />
+            <div class="unit-selectors">
+              <select id="fromUnit">
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="K">Kelvin (K)</option>
+                <option value="R">Rankine (°R)</option>
+                <option value="Re">Réaumur (°Re)</option>
+              </select>
+              <span class="swap-icon">⇄</span>
+              <select id="toUnit">
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="C">Celsius (°C)</option>
+                <option value="K">Kelvin (K)</option>
+                <option value="R">Rankine (°R)</option>
+                <option value="Re">Réaumur (°Re)</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="main-btn" onclick="convert()">⚡ Convert Now</button>
+
+          <div id="resultContainer" class="hidden">
+            <div class="result-value">
+              <span id="resultText">---</span>
+              <button class="copy-btn" onclick="copyResult()">📋</button>
+            </div>
+            <div class="formula-box">
+              <strong>Formula:</strong>
+              <p id="formulaDisplay">...</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="history-card glass">
+          <div class="history-header">
+            <h3>Recent History</h3>
+            <button onclick="clearHistory()" class="clear-btn">
+              Clear All
+            </button>
+          </div>
+          <ul id="historyList"></ul>
+        </section>
+      </main>
+      <aside class="formula-sidebar glass">
+        <h3 class="table-title">Celsius Conversion Formula</h3>
+        <div class="table-container">
+          <table class="custom-table">
+            <tbody>
+              <tr>
+                <td class="col-name">Celsius to Fahrenheit</td>
+                <td class="col-formula">°F = °C × 9/5 + 32</td>
+              </tr>
+              <tr>
+                <td class="col-name">Celsius to Kelvin</td>
+                <td class="col-formula">K = °C + 273.15</td>
+              </tr>
+              <tr>
+                <td class="col-name">Celsius to Rankine</td>
+                <td class="col-formula">°R = °C × 9/5 + 491.67</td>
+              </tr>
+              <tr>
+                <td class="col-name">Celsius to Réaumur</td>
+                <td class="col-formula">°Ré = °C × 4/5</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="unit-definitions">
+            <h4>💡 Do you know that?</h4>
+
+            <div class="def-item">
+              <span class="unit-tag c-tag">°C</span>
+              <p>
+                <strong>Celsius:</strong> The most commonly used temperature
+                scale worldwide, with water freezing at 0°C and boiling at
+                100°C.
+              </p>
+            </div>
+
+            <div class="def-item">
+              <span class="unit-tag f-tag">°F</span>
+              <p>
+                <strong>Fahrenheit:</strong> Commonly used in the United States.
+                Water freezes at 32°F and boils at 212°F.
+              </p>
+            </div>
+
+            <div class="def-item">
+              <span class="unit-tag k-tag">K</span>
+              <p>
+                <strong>Kelvin:</strong> The international (SI) unit of
+                measurement for science. 0K is "absolute zero", where all
+                molecules stop moving.
+              </p>
+            </div>
+
+            <div class="def-item">
+              <span class="unit-tag r-tag">°R</span>
+              <p>
+                <strong>Rankine:</strong> The absolute temperature scale based
+                on Fahrenheit, commonly used in the field of thermodynamics in
+                the United States.
+              </p>
+            </div>
+
+            <div class="def-item">
+              <span class="unit-tag re-tag">°Re</span>
+              <p>
+                <strong>Réaumur:</strong> An old temperature scale from France.
+                Water freezes at 0°Re and boils at 80°Re.
+              </p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

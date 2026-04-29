@@ -1,0 +1,451 @@
+:root {
+  --primary: #6366f1; /* Tím hiện đại */
+  --secondary: #ec4899; /* Hồng neon */
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --text: #1e293b;
+  --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --text: #f1f5f9;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Lexend", sans-serif;
+  transition: all 0.3s ease;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  flex-direction: column; /* 🌟 Ép tất cả xếp theo chiều dọc (trên xuống dưới) */
+  justify-content: flex-start; /* 🌟 Bắt đầu xếp từ trên cùng màn hình xuống */
+  align-items: center; /* 🌟 Căn giữa mọi thứ theo chiều ngang */
+  color: var(--text);
+  overflow-x: hidden;
+  padding-top: 40px; /* Thêm khoảng trống ở phía trên cùng để không bị dính sát mép màn hình */
+}
+
+/* Định dạng tiêu đề chính */
+.main-header {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px; /* Chỉ cần giữ lại khoảng cách phía dưới tiêu đề */
+  z-index: 10; /* Đảm bảo tiêu đề luôn nằm trên nền */
+}
+
+/* Các đốm màu nền tạo hiệu ứng chiều sâu */
+.background-blobs {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+.background-blobs::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: var(--primary);
+  filter: blur(100px);
+  opacity: 0.2;
+  top: -50px;
+  left: -50px;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  box-shadow: var(--card-shadow);
+}
+
+.app-container {
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: -1px;
+}
+.badge {
+  font-size: 0.8rem;
+  background: var(--primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+
+.converter-card {
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.5rem;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 15px;
+}
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+}
+
+.unit-selectors {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+select {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-weight: bold;
+}
+
+.main-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(
+    45deg,
+    #6366f1,
+    #a855f7,
+    #ec4899
+  ); /* Gradient 3 màu */
+  background-size: 200% auto; /* Để hiệu ứng di chuyển màu */
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+  transition: 0.4s;
+}
+
+.main-btn:hover {
+  background-position: right center; /* Chạy màu Gradient khi di chuột */
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(99, 102, 241, 0.4);
+}
+
+.formula-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* Lịch sử */
+.history-card {
+  padding: 20px;
+}
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+#historyList {
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+#historyList li {
+  padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  .unit-selectors {
+    flex-direction: column;
+  }
+  .swap-icon {
+    transform: rotate(90deg);
+  }
+}
+
+/* Định dạng tiêu đề của bảng */
+.table-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Style cho bảng giống hình ảnh */
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px; /* Bo góc mượt mà */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--input-bg);
+}
+
+.custom-table td {
+  padding: 15px;
+  border: 1px solid var(--input-border); /* Tạo viền mỏng giữa các ô */
+  color: var(--text);
+  font-size: 1rem;
+}
+
+/* Định dạng cột bên trái (Tên công thức) - Nền xám */
+.custom-table .col-name {
+  background-color: rgba(
+    150,
+    150,
+    150,
+    0.15
+  ); /* Màu xám nhạt, tự đổi theo dark/light mode */
+  font-weight: 500;
+  width: 45%;
+}
+
+/* Định dạng cột bên phải (Công thức) */
+.custom-table .col-formula {
+  font-family:
+    "Courier New", Courier, monospace; /* Đổi sang font chữ code để nhìn giống toán học */
+  font-size: 1.1rem;
+  background-color: transparent;
+}
+
+/* Hiệu ứng hover cho bảng */
+.custom-table tr:hover td {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* --- BỐ CỤC CHIA 2 CỘT (MỚI) --- */
+
+/* 1. Khung bao ngoài cùng chứa cả 2 cột */
+.main-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start; /* Lệnh này bắt buộc 2 bảng phải gióng bằng mép trên */
+  gap: 40px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 2. Cột bên trái: Phần App và Lịch sử */
+.app-container {
+  flex: 1.2; /* Tỷ lệ độ rộng cột trái (lớn hơn một chút) */
+  width: 100%;
+  /* Xóa bỏ margin tự động cũ nếu có để tránh bị lệch */
+  margin: 0;
+}
+
+/* 3. Cột bên phải: Bảng công thức */
+.formula-sidebar {
+  flex: 1; /* Tỷ lệ độ rộng cột phải */
+  width: 100%;
+  position: sticky; /* Giữ bảng công thức đứng im khi cuộn chuột xuống xem lịch sử */
+  top: 20px;
+  margin: 0;
+}
+
+/* 4. Tự động chuyển về 1 cột khi xem trên Điện thoại / Màn hình nhỏ gọn */
+@media (max-width: 900px) {
+  .main-content-wrapper {
+    flex-direction: column; /* Đổi lại thành xếp dọc trên điện thoại */
+    align-items: center;
+  }
+
+  .app-container,
+  .formula-sidebar {
+    width: 100%;
+    max-width: 500px;
+    flex: none;
+  }
+
+  .formula-sidebar {
+    position: static; /* Tắt sticky trên điện thoại */
+    margin-top: 20px;
+  }
+}
+
+#themeToggle {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Nút tròn hoàn hảo */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#themeToggle:hover {
+  transform: scale(1.1) rotate(15deg); /* Phóng to và xoay nhẹ khi di chuột */
+  background: var(--primary);
+  color: white;
+}
+
+.clear-btn {
+  background: rgba(231, 76, 60, 0.1); /* Màu đỏ cực nhạt */
+  color: #e74c3c; /* Chữ đỏ */
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  padding: 6px 15px;
+  border-radius: 20px; /* Bo tròn kẹo dẻo */
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+  background: #e74c3c;
+  color: white;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.copy-btn {
+  background: var(--primary);
+  border: none;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.copy-btn:active {
+  transform: scale(0.9); /* Hiệu ứng nhấn nút */
+}
+
+/* Container chứa các định nghĩa */
+.unit-definitions {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.unit-definitions h4 {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Từng dòng định nghĩa */
+.def-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 10px;
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.def-item:hover {
+  transform: translateX(5px); /* Hiệu ứng lướt nhẹ khi di chuột */
+}
+
+/* Các Badge (nhãn) màu sắc cho từng đơn vị */
+.unit-tag {
+  min-width: 45px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.c-tag {
+  background: #3498db;
+} /* Blue */
+.f-tag {
+  background: #e67e22;
+} /* Orange */
+.k-tag {
+  background: #9b59b6;
+} /* Purple */
+.r-tag {
+  background: #1abc9c;
+} /* Teal */
+.re-tag {
+  background: #34495e;
+} /* Navy */
+
+.def-item p {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0;
+}
+
+.def-item strong {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 2px;
+}
