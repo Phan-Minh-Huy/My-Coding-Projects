@@ -1,0 +1,109 @@
+/* Import font chữ hiện đại từ Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+  /* Nền gradient chuyển sắc nhẹ nhàng, trendy */
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.chat-container {
+  width: 100%;
+  max-width: 450px; /* Thu gọn lại giống tỷ lệ màn hình điện thoại */
+  background: rgba(255, 255, 255, 0.7); /* Nền hơi trong suốt */
+  backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+  border-radius: 25px; /* Bo góc tròn to */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.chat-header {
+  /* Header nổi bật với dải màu tím/xanh */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.chat-box {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: 20px;
+  max-width: 80%;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.user-msg {
+  /* Tin nhắn của user có màu gradient xanh tím */
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px; /* Tạo đuôi nhọn bong bóng chat */
+}
+
+.ai-msg {
+  background: #ffffff;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.input-area {
+  display: flex;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  gap: 10px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 20px;
+  background: #f0f2f5;
+  outline: none;
+  font-family: inherit;
+  transition: background 0.3s;
+}
+
+input[type="text"]:focus {
+  background: #e4e6eb;
+}
+
+button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px); /* Hiệu ứng nảy nhẹ khi di chuột */
+}
