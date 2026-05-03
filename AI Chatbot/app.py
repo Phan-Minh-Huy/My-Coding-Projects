@@ -1,45 +1,41 @@
+import os
 import pandas as pd
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 import google.generativeai as genai
-# Đã thêm make_response vào dòng này để sửa lỗi tải CSS
 from flask import Flask, render_template, request, jsonify, make_response
 
 app = Flask(__name__)
+os.makedirs('static', exist_ok=True)
 
-# ==========================================
-# PHẦN 1: DỮ LIỆU & MACHINE LEARNING
-# Mục đích: Tạo dữ liệu giả lập và huấn luyện mô hình dự đoán
-# ==========================================
+
+# Part 1: SETTING UP DATA AND MODELS FOR AI
+
 ml_model = None
 customer_df = None
-chat_session = None # Biến lưu trữ phiên trò chuyện của AI
+chat_session = None
 
 def setup_data_and_model():
-    """Hàm chuẩn bị dữ liệu và huấn luyện mô hình AI phân loại."""
     global ml_model, customer_df
-    
-    # Dữ liệu khách hàng mẫu
     data = {
         'age': [25, 45, 30, 50, 23, 60, 35, 40, 28, 55],
         'support_calls': [1, 5, 0, 4, 1, 6, 2, 5, 0, 7],
         'churn': [0, 1, 0, 1, 0, 1, 0, 1, 0, 1] 
     }
     customer_df = pd.DataFrame(data)
-    
-    # Huấn luyện mô hình RandomForest
     X = customer_df[['age', 'support_calls']]
     y = customer_df['churn']
     ml_model = RandomForestClassifier(random_state=42)
     ml_model.fit(X.values, y.values)
 
-# ==========================================
-# PHẦN 2: CÁC CÔNG CỤ (HÀM) CHO CHATBOT
-# Mục đích: Để AI tự động gọi khi người dùng hỏi về số liệu
-# ==========================================
+# Part 2: TOOLS (FUNCTIONS) FOR CHATBOTS
+
 
 def analyze_customer_data() -> str:
-    """Công cụ giúp AI thống kê tổng quan dữ liệu khách hàng."""
+    """Collect internal data and create your own charts."""
     if customer_df is None:
         return "System Error: The database is empty."
 
@@ -47,74 +43,95 @@ def analyze_customer_data() -> str:
     churn_rate = (customer_df['churn'].sum() / total_customers) * 100
     avg_support_calls = customer_df['support_calls'].mean()
     
-    return f"We have {total_customers} customers. Avg support calls: {avg_support_calls:.1f}. Churn rate: {churn_rate}%"
+    plt.figure(figsize=(5, 3))
+    customer_df['churn'].value_counts().plot(kind='bar', color=['#0E4CFF', '#ff4c4c'])
+    plt.title('Customer Churn Distribution', fontsize=10)
+    plt.xlabel('Status (0 = Retained, 1 = Churned)', fontsize=9)
+    plt.ylabel('Number of Customers', fontsize=9)
+    plt.xticks(rotation=0)
+    plt.tight_layout()
+    
+    plot_path = os.path.join('static', 'churn_plot.png')
+    plt.savefig(plot_path)
+    plt.close()
+
+    return (f"We have {total_customers} customers. Avg support calls: {avg_support_calls:.1f}. Churn rate: {churn_rate}%. "
+            f"Here is the visual representation:<br><br><img src='/static/churn_plot.png' style='width:100%; border-radius:10px;'>")
 
 def predict_customer_churn(age: int, support_calls: int) -> str:
-    """Công cụ giúp AI dự đoán xem một khách hàng cụ thể có rời bỏ dịch vụ không."""
+    """Predict the likelihood of a customer churning."""
     if ml_model is None:
         return "System Error: Model not trained."
 
     prediction = ml_model.predict([[age, support_calls]])[0]
-    
     if prediction == 1:
         return f"A customer aged {age} with {support_calls} support calls is HIGHLY LIKELY to churn."
     else:
         return f"A customer aged {age} with {support_calls} support calls is UNLIKELY to churn."
 
-# ==========================================
-# PHẦN 3: CẤU HÌNH AI & CHẠY TRANG WEB
-# Mục đích: Kết nối Gemini API và mở cổng giao tiếp Web
-# ==========================================
-
-def init_ai():
-    """Khởi tạo AI với phiên bản chuẩn."""
-    global chat_session
+# CREATE CHARTS ACCORDING TO USER'S REQUIREMENTS
+def generate_custom_chart(title: str, categories: list[str], values: list[float]) -> str:
+    """
+    Custom charting tool.
+    YOU MUST PRINT THE MARKDOWN RESULT OF THIS FUNCTION INTO YOUR ANSWER.
+    """
+    plt.figure(figsize=(6, 4))
     
-    api_key = "AIzaSyB3rRI-zpXwccx9rzSTjqEt0UYk_vMSKyM"
+    colors = ['#0E4CFF', '#764ba2', '#a8edea', '#fed6e3', '#ff4c4c']
+    colors = colors * (len(categories) // len(colors) + 1)
+    
+    plt.bar(categories, values, color=colors[:len(categories)])
+    plt.title(title, fontsize=12, fontweight='bold', color='#333')
+    plt.ylabel('Values / Units (Value)')
+    plt.xticks(rotation=15)
+    plt.tight_layout()
+    
+    plot_path = os.path.join('static', 'custom_plot.png')
+    plt.savefig(plot_path)
+    plt.close()
+    return f"![{title}](/static/custom_plot.png)"
+
+# Part 3: AI System &  Web Server
+def init_ai():
+    global chat_session
+    api_key = "Enter_your_API_key_here" 
     genai.configure(api_key=api_key)
     
-    # Khôi phục lại tên mô hình chuẩn để tránh lỗi 404
     model = genai.GenerativeModel(
-        model_name='gemini-3.1-flash-lite-preview',
-        tools=[analyze_customer_data, predict_customer_churn]
+        model_name='gemini-3.1-flash-lite-preview', 
+        tools=[analyze_customer_data, predict_customer_churn, generate_custom_chart],
+        
     )
     
-    # Bật tính năng tự động sử dụng công cụ
     chat_session = model.start_chat(enable_automatic_function_calling=True)
 
 @app.route("/style.css")
 def serve_css():
-    """Đọc tệp style.css từ thư mục templates và gửi cho trình duyệt."""
     response = make_response(render_template("style.css"))
-    # Báo cho trình duyệt biết đây là tệp CSS
     response.headers['Content-Type'] = 'text/css'
     return response
 
 @app.route("/")
 def home():
-    """Hiển thị giao diện HTML khi người dùng vào trang web."""
     return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    """Nhận tin nhắn từ web, gửi cho AI và trả kết quả về."""
     if chat_session is None:
-        return jsonify({"response": "Lỗi: Hệ thống AI chưa sẵn sàng."})
+        return jsonify({"response": "Error: The AI ​​system is not ready."})
 
     user_message = request.json.get("message")
     if not user_message:
-        return jsonify({"response": "Vui lòng nhập tin nhắn."})
+        return jsonify({"response": "Please enter a message."})
 
     try:
-        # Gửi tin nhắn cho AI xử lý
         response = chat_session.send_message(user_message)
         return jsonify({"response": response.text})
     except Exception as e:
-        return jsonify({"response": f"Lỗi kỹ thuật: {str(e)}"})
+        return jsonify({"response": f"Technical error: {str(e)}"})
 
-# Lệnh khởi động chương trình
 if __name__ == "__main__":
     setup_data_and_model()
     init_ai()
-    print("Máy chủ web MVP đang chạy... Mở trình duyệt tại: http://127.0.0.1:5000")
+    print("Web server MVP is running... Open your browser at: http://127.0.0.1:5000")
     app.run(debug=True)
