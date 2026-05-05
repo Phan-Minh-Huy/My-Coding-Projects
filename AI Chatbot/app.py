@@ -12,6 +12,7 @@ app = Flask(__name__)
 os.makedirs('static', exist_ok=True)
 
 
+
 # Part 1: SETTING UP DATA AND MODELS FOR AI
 
 ml_model = None
@@ -20,18 +21,26 @@ chat_session = None
 
 def setup_data_and_model():
     global ml_model, customer_df
-    data = {
-        'age': [25, 45, 30, 50, 23, 60, 35, 40, 28, 55],
-        'support_calls': [1, 5, 0, 4, 1, 6, 2, 5, 0, 7],
-        'churn': [0, 1, 0, 1, 0, 1, 0, 1, 0, 1] 
-    }
-    customer_df = pd.DataFrame(data)
-    X = customer_df[['age', 'support_calls']]
-    y = customer_df['churn']
-    ml_model = RandomForestClassifier(random_state=42)
-    ml_model.fit(X.values, y.values)
+    
+    # 1. READ CUSTOMER DATA FROM CSV
+    try:
+        customer_df = pd.read_csv('customer_data.csv')
+    except FileNotFoundError:
+        print("Error: File not found. Please ensure the CSV file is in the same directory as app.py")
+        return
+    
+    # 2. PREPARE DATA FOR MACHINE LEARNING
+    try:
+        X = customer_df[['age', 'support_calls']]
+        y = customer_df['churn']
+        
+        ml_model = RandomForestClassifier(random_state=42)
+        ml_model.fit(X.values, y.values)
+        print("Machine learning model trained successfully.")
+    except KeyError as e:
+        print(f"Error: Column {str(e)} not found in the CSV file. Please check the column names.")
 
-# Part 2: TOOLS (FUNCTIONS) FOR CHATBOTS
+# Part 2: AI FUNCTIONS FOR CHATBOTS
 
 
 def analyze_customer_data() -> str:
@@ -94,7 +103,7 @@ def generate_custom_chart(title: str, categories: list[str], values: list[float]
 # Part 3: AI System &  Web Server
 def init_ai():
     global chat_session
-    api_key = "Enter_your_API_key_here" 
+    api_key = "Enter your API key here" 
     genai.configure(api_key=api_key)
     
     model = genai.GenerativeModel(
