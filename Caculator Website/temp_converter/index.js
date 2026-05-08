@@ -1,4 +1,3 @@
-
 const textBox = document.getElementById("textBox");
 const fromUnit = document.getElementById("fromUnit");
 const toUnit = document.getElementById("toUnit");
@@ -6,15 +5,16 @@ const resultContainer = document.getElementById("resultContainer");
 const resultText = document.getElementById("resultText");
 const formulaDisplay = document.getElementById("formulaDisplay");
 const historyList = document.getElementById("historyList");
-
+const themeToggle = document.getElementById("themeToggle");
 
 window.onload = () => {
     const savedHistory = JSON.parse(localStorage.getItem("tempHistory")) || [];
     savedHistory.forEach(item => renderHistoryItem(item));
     
+    // Đồng bộ theme từ LocalStorage khi tải trang
     if(localStorage.getItem("theme") === "dark") {
         document.body.setAttribute("data-theme", "dark");
-        document.getElementById("themeToggle").textContent = "☀️";
+        if(themeToggle) themeToggle.textContent = "☀️";
     }
 };
 
@@ -24,8 +24,6 @@ function convert() {
 
     let from = fromUnit.value;
     let to = toUnit.value;
-    
-   
     let c, formulaFrom, formulaTo;
     
     switch(from) {
@@ -36,7 +34,6 @@ function convert() {
         case "Re": c = val * 1.25; formulaFrom = `${val}°Re × 1.25`; break;
     }
 
-    
     let res;
     switch(to) {
         case "C": res = c; formulaTo = ` = ${res.toFixed(2)}°C`; break;
@@ -46,29 +43,26 @@ function convert() {
         case "Re": res = c * 0.8; formulaTo = ` × 0.8 = ${res.toFixed(2)}°Re`; break;
     }
 
-
-    resultContainer.classList.remove("hidden");
+    // Hiển thị kết quả
+    resultContainer.style.display = "block";
     let finalString = `${res.toFixed(2)} ${to}`;
     resultText.textContent = finalString;
     formulaDisplay.textContent = formulaFrom + formulaTo;
 
-  
     saveHistory(`${val}${from} ➔ ${finalString}`);
 }
 
-
 function saveHistory(item) {
     let history = JSON.parse(localStorage.getItem("tempHistory")) || [];
-    history.unshift(item); // Thêm vào đầu mảng
-    if(history.length > 10) history.pop(); // Chỉ giữ 10 mục gần nhất
+    history.unshift(item); 
+    if(history.length > 10) history.pop(); 
     localStorage.setItem("tempHistory", JSON.stringify(history));
-    
     renderHistoryItem(item, true);
 }
 
 function renderHistoryItem(text, isNew = false) {
     const li = document.createElement("li");
-    li.innerHTML = `<span>${text}</span> <small>${new Date().toLocaleTimeString()}</small>`;
+    li.innerHTML = `<span>${text}</span> <small style="opacity: 0.6;">${new Date().toLocaleTimeString()}</small>`;
     if(isNew) historyList.prepend(li);
     else historyList.appendChild(li);
 }
@@ -78,23 +72,23 @@ function clearHistory() {
     historyList.innerHTML = "";
 }
 
-
-function toggleTheme() {
-    const isDark = document.body.hasAttribute("data-theme");
-    if(isDark) {
-        document.body.removeAttribute("data-theme");
-        localStorage.setItem("theme", "light");
-        document.getElementById("themeToggle").textContent = "🌙";
-    } else {
-        document.body.setAttribute("data-theme", "dark");
-        localStorage.setItem("theme", "dark");
-        document.getElementById("themeToggle").textContent = "☀️";
-    }
-}
-
-document.getElementById("themeToggle").onclick = toggleTheme;
-
 function copyResult() {
     navigator.clipboard.writeText(resultText.textContent);
     alert("Đã copy kết quả! ✅");
+}
+
+// Logic Theme Toggle đồng bộ
+if(themeToggle) {
+    themeToggle.addEventListener("click", () => {
+        const isDark = document.body.hasAttribute("data-theme");
+        if(isDark) {
+            document.body.removeAttribute("data-theme");
+            localStorage.setItem("theme", "light");
+            themeToggle.textContent = "🌙";
+        } else {
+            document.body.setAttribute("data-theme", "dark");
+            localStorage.setItem("theme", "dark");
+            themeToggle.textContent = "☀️";
+        }
+    });
 }

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caculators | Scientific Computing Project</title>
+    <link rel="stylesheet" href="main_style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="main.html" class="logo">Calculator<span>.net</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="active-link">Calculator</a>
+        <a href="temp_converter/index.html">Temperature</a>
+      </div>
+    </nav>
+    <h1>Free Caculator</h1>
+    <div class="main-container">
+      <div class="calculator">
+        <div class="display-container">
+          <input type="text" class="display" id="display" disabled value="0" />
+        </div>
+
+        <div class="keys">
+          <button onclick="appendString('sin(')">sin</button>
+          <button onclick="appendString('cos(')">cos</button>
+          <button onclick="appendString('tan(')">tan</button>
+          <button class="text-btn" id="degRadBtn" onclick="toggleAngleMode()">
+            Deg
+          </button>
+          <button class="action highlight" onclick="appendString('7')">
+            7
+          </button>
+          <button class="action highlight" onclick="appendString('8')">
+            8
+          </button>
+          <button class="action highlight" onclick="appendString('9')">
+            9
+          </button>
+          <button onclick="appendString('+')">+</button>
+          <button class="action highlight" onclick="backspace()">Back</button>
+
+          <button onclick="appendString('asin(')">sin⁻¹</button>
+          <button onclick="appendString('acos(')">cos⁻¹</button>
+          <button onclick="appendString('atan(')">tan⁻¹</button>
+          <button onclick="appendString('π')">π</button>
+          <button onclick="appendString('e')">e</button>
+          <button class="action highlight" onclick="appendString('4')">
+            4
+          </button>
+          <button class="action highlight" onclick="appendString('5')">
+            5
+          </button>
+          <button class="action highlight" onclick="appendString('6')">
+            6
+          </button>
+          <button onclick="appendString('-')">-</button>
+          <button class="action" onclick="appendAns()">Ans</button>
+
+          <button onclick="appendString('^')">xʸ</button>
+          <button onclick="appendString('^3')">x³</button>
+          <button onclick="appendString('^2')">x²</button>
+          <button onclick="appendString('e^')">eˣ</button>
+          <button onclick="appendString('10^')">10ˣ</button>
+          <button class="action highlight" onclick="appendString('1')">
+            1
+          </button>
+          <button class="action highlight" onclick="appendString('2')">
+            2
+          </button>
+          <button class="action highlight" onclick="appendString('3')">
+            3
+          </button>
+          <button onclick="appendString('*')">×</button>
+          <button class="action" onclick="memoryAdd()">M+</button>
+
+          <button onclick="appendString('^(1/')">ʸ√x</button>
+          <button onclick="appendString('cbrt(')">³√x</button>
+          <button onclick="appendString('√(')">√x</button>
+          <button onclick="appendString('ln(')">ln</button>
+          <button onclick="appendString('log(')">log</button>
+          <button class="action highlight" onclick="appendString('0')">
+            0
+          </button>
+          <button class="number" onclick="appendString('.')">.</button>
+          <button onclick="appendString('E')">EXP</button>
+          <button onclick="appendString('/')">/</button>
+          <button class="action" onclick="memorySubtract()">M-</button>
+
+          <button onclick="appendString('(')">(</button>
+          <button onclick="appendString(')')">)</button>
+          <button onclick="appendString('1/')">1/x</button>
+          <button onclick="appendString('%')">%</button>
+          <button onclick="appendString('!')">n!</button>
+          <button onclick="toggleSign()">±</button>
+          <button onclick="appendString('Math.random()')">RND</button>
+          <button class="action highlight" onclick="clearDisplay()">AC</button>
+          <button class="action highlight" onclick="calculate()">=</button>
+          <button class="action" onclick="memoryRecall()">MR</button>
+        </div>
+      </div>
+
+      <div class="history-panel">
+        <div class="history-header">
+          <span>History</span>
+          <button onclick="clearHistory()" class="clear-history-btn">
+            Clear All
+          </button>
+        </div>
+        <ul id="history-list">
+          <li class="empty-msg">No calculations yet</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-info">
+        <p>
+          &copy; 2026 Scientific Computing Project. Developed by
+          <strong>Minh Huy Phan</strong>.
+        </p>
+        <p>
+          Contact:
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=pmhuy0911@gmail.com"
+            target="_blank"
+          >
+            pmhuy0911@gmail.com
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

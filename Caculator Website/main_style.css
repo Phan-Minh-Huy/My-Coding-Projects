@@ -1,0 +1,345 @@
+/* Import font chữ Lexend hiện đại */
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary: #6366f1;
+  --secondary: #ec4899;
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --text: #1e293b;
+  --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+
+  /* Biến màu riêng cho nút bấm máy tính */
+  --btn-bg: rgba(255, 255, 255, 0.5);
+  --btn-hover: rgba(255, 255, 255, 0.9);
+  --display-bg: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --text: #f1f5f9;
+
+  /* Màu nút bấm khi ở chế độ tối */
+  --btn-bg: rgba(0, 0, 0, 0.2);
+  --btn-hover: rgba(0, 0, 0, 0.4);
+  --display-bg: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Lexend", sans-serif;
+  transition: all 0.3s ease;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* =========================================
+   HIỆU ỨNG BONG BÓNG MÀU NỀN (BLOBS)
+========================================= */
+.background-blobs {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+.background-blobs::before,
+.background-blobs::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  filter: blur(100px);
+  opacity: 0.3;
+  border-radius: 50%;
+}
+.background-blobs::before {
+  background: var(--primary);
+  top: -50px;
+  left: -50px;
+}
+.background-blobs::after {
+  background: var(--secondary);
+  bottom: -50px;
+  right: -50px;
+}
+
+/* =========================================
+   HIỆU ỨNG KÍNH MỜ (GLASSMORPHISM)
+========================================= */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: var(--card-shadow);
+}
+
+/* =========================================
+   THANH ĐIỀU HƯỚNG (NAVBAR)
+========================================= */
+.navbar {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 10;
+}
+
+.logo {
+  color: var(--text);
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+.logo span {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+.nav-links a:hover,
+.nav-links a.active-link {
+  color: var(--primary);
+  opacity: 1;
+}
+
+/* =========================================
+   BỐ CỤC CHÍNH (MÁY TÍNH & LỊCH SỬ)
+========================================= */
+.page-content {
+  padding: 40px 20px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.main-container {
+  display: flex;
+  gap: 30px;
+  max-width: 1050px;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Hỗ trợ thu nhỏ trên điện thoại */
+}
+
+/* Áp dụng class .glass cho Calculator và History */
+.calculator {
+  padding: 30px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.history-panel {
+  padding: 25px;
+  width: 100%;
+  max-width: 300px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   GIAO DIỆN MÁY TÍNH CHI TIẾT
+========================================= */
+.display {
+  width: 100%;
+  padding: 15px 25px;
+  font-size: 2.5rem;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  background: var(--display-bg);
+  color: var(--text);
+  text-align: right;
+  margin-bottom: 25px;
+  outline: none;
+  font-family: monospace;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 10px;
+}
+.keys > button:nth-child(4) {
+  grid-column: span 2;
+}
+
+.keys button {
+  padding: 12px 5px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px; /* Bo tròn mềm mại hơn */
+  background: var(--btn-bg);
+  color: var(--text);
+}
+
+.keys button:hover {
+  background: var(--btn-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.keys button.highlight {
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  background-size: 200% auto;
+  color: white;
+  border: none;
+}
+.keys button.highlight:hover {
+  background-position: right center;
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* =========================================
+   GIAO DIỆN LỊCH SỬ CHI TIẾT
+========================================= */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.clear-btn {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.clear-btn:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+#history-list {
+  list-style: none;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+#history-list li {
+  padding: 12px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.history-expr {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+.history-res {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary);
+  text-align: right;
+}
+.empty-msg {
+  text-align: center;
+  padding: 20px;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   NÚT CHUYỂN ĐỔI GIAO DIỆN (THEME TOGGLE)
+========================================= */
+#themeToggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  color: var(--text);
+}
+#themeToggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  background: var(--primary);
+  color: white;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+footer {
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  border-top: 1px solid var(--glass-border);
+  font-size: 14px;
+  opacity: 0.8;
+}
+footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 30px 0;
+  font-size: 2.5rem;
+  color: var(--text);
+}
